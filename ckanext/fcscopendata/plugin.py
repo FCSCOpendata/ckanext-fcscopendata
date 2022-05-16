@@ -27,35 +27,6 @@ class FcscopendataPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.ITemplateHelpers)
 
 
-    # IPackageController
-    def after_search(self, search_results, search_params):
-
-        # Update group and organization dict with translated fields.
-        for idx, results in enumerate(search_results['results']):
-            context = {'model': model, 'session': model.Session,
-                       'user': c.user, 'auth_user_obj': c.userobj}
-            if results.get('groups', []):
-                for gidx, group in enumerate(results.get('groups', [])):
-                    group_dict = logic.get_action('group_show')(context, {'id': group.get('id')})
-                    search_results['results'][idx]['groups'][gidx].update(
-                        {'title_translated' : group_dict.get('title_translated', {'ar': '', 'en': ''})})
-                    search_results['results'][idx]['groups'][gidx].update(
-                        {'description_translated' : group_dict.get('description_translated', {'ar': '', 'en': ''})})
-
-            if results.get('organization', {}):
-                org_dict = logic.get_action('organization_show')(context, {'id': results.get('organization', {})['id'] })
-                search_results['results'][idx]['organization'].update(
-                    {'title_translated' : org_dict.get('title_translated', {'ar': '', 'en': ''})})
-                search_results['results'][idx]['organization'].update(
-                    {'notes_translated' : org_dict.get('notes_translated', {'ar': '', 'en': ''})})
-
-            if results.get('tags', []):
-                for inindex, tag in enumerate(search_results['results'][idx]['tags']):
-                    search_results['results'][idx]['tags'][inindex] =  \
-                    logic.get_action('tag_show')(context, {'id': tag['id'] })
-                    
-        return search_results
-
     def before_index(self, pkg_dict):
         # Index vocab tags as tag field also so that
         # it is searchable via default tag query.
