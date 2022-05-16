@@ -526,8 +526,7 @@ def get_actions():
         'tag_show': tag_show,
         'vocabulary_create': vocabulary_create,
         'vocabulary_update': vocabulary_update,
-        'vocabulary_show': vocabulary_show,
-        'package_show': package_show
+        'vocabulary_show': vocabulary_show
     }
 
 
