@@ -4,7 +4,7 @@ import json
 from ckanext.fcscopendata.logic import action
 import ckanext.fcscopendata.cli as cli
 from ckanext.fcscopendata.views import vocab_tag_autocomplete
-from ckanext.fcscopendata.helpers import get_package_download_stats
+from ckanext.fcscopendata.helpers import get_package_download_stats, get_dataset_group_list
 
 from ckan.lib.plugins import DefaultTranslation
 
@@ -66,5 +66,6 @@ class FcscopendataPlugin(plugins.SingletonPlugin, DefaultTranslation):
     #ITemplateHelpers
     def get_helpers(self):
         return {
-            'get_package_download_stats': get_package_download_stats
+            'get_package_download_stats': get_package_download_stats,
+            'get_dataset_group_list': get_dataset_group_list
         }

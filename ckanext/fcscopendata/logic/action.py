@@ -13,7 +13,7 @@ import ckan.lib.helpers as h
 import ckan.lib.uploader as uploader
 import ckan.model as model
 from ckan.common import c
-from ckan.authz import users_role_for_group_or_org
+from ckan.authz import users_role_for_group_or_org, is_sysadmin
 
 
 ValidationError = logic.ValidationError
@@ -562,6 +562,20 @@ def package_show(up_func,context,data_dict):
         result['total_downloads'] = 0
     return result
 
+@p.toolkit.chained_action
+def member_create(up_func, context, data_dict):
+    sysadmin = is_sysadmin(context['user'])
+    if not sysadmin:
+        is_memeber_of_group = users_role_for_group_or_org(data_dict['id'], context['user'])
+        if not is_memeber_of_group:
+            member_dict = {
+                'id': data_dict['id'],
+                'object': c.userobj.id,
+                'object_type': 'user',
+                'capacity': 'member',
+                }
+    result = up_func(dict(context, ignore_auth=True), data_dict)
+    return result
 
 def get_actions():
     return {
@@ -579,7 +593,8 @@ def get_actions():
         'vocabulary_update': vocabulary_update,
         'vocabulary_show': vocabulary_show,
         'package_show': package_show,
-        'package_search': package_search
+        'package_search': package_search,
+        'member_create': member_create
     }
 
 
