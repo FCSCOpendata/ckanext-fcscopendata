@@ -22,3 +22,11 @@ def get_dataset_group_list():
                           for group in group_list]
 
     return group_dropdown
+  
+def is_dataset_draft(package_id):
+    context = {'model': model, 'session': model.Session}
+    dataset = logic.get_action('package_show')(context, {'id': package_id})
+    if dataset.get('publishing_status', '') == 'draft':
+        return True
+    else:
+        return False

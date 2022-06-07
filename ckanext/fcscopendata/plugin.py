@@ -5,7 +5,7 @@ import json
 from ckanext.fcscopendata.logic import action
 import ckanext.fcscopendata.cli as cli
 from ckanext.fcscopendata.views import vocab_tag_autocomplete, GroupManage
-from ckanext.fcscopendata.helpers import get_package_download_stats, get_dataset_group_list
+from ckanext.fcscopendata.helpers import get_package_download_stats, get_dataset_group_list, is_dataset_draft
 
 from ckan.lib.plugins import DefaultTranslation
 
@@ -37,6 +37,14 @@ class FcscopendataPlugin(plugins.SingletonPlugin, DefaultTranslation):
                 tag_list.append(tag['name'])
             pkg_dict['tags'] = tag_list
         return pkg_dict
+
+    def before_search(self, search_params):
+        include_drafts = search_params.get('include_drafts', False)
+        if not include_drafts:
+            search_params.update({
+                'fq': '!(publishing_status:draft)' + search_params.get('fq', ''),
+            })  
+        return search_params
 
     # IConfigurer
     def update_config(self, config_):
@@ -71,4 +79,5 @@ class FcscopendataPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return {
             'get_package_download_stats': get_package_download_stats,
             'get_dataset_group_list': get_dataset_group_list
+            'is_dataset_draft': is_dataset_draft
         }

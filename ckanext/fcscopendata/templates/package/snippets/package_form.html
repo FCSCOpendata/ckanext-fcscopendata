@@ -40,7 +40,14 @@ then itself be extended to add/remove blocks of functionality. #}
         {% endif %}
       {% endblock %}
       {% block save_button %}
-        <button class="btn btn-primary" type="submit" name="save">{% block save_button_text %}{{ _('Next: Add Data') }}{% endblock %}</button>
+      {% if form_style == 'new' %}
+        <a class="btn btn-primary"  data-module="form-save" data-module-type="draft">{{ _('Next: Add Data')}}</a>
+        <button class="btn btn-primary hidden" type="submit" name="save"></button>
+      {% else %}
+        <a class="btn btn-warning" data-module="form-save" data-module-type="draft">{{ _('Save as Draft')}}</a>
+        <a class="btn btn-primary" data-module="form-save" data-module-type="published">{% block save_button_text %}{{ _('Next: Add Data') }}{% endblock %}</a>
+        <button class="btn btn-primary hidden" type="submit" name="save"></button>
+      {% endif %}
       {% endblock %}
       {{ form.required_message() }}
     </div>

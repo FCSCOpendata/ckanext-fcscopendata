@@ -581,6 +581,20 @@ button.active {
 .stages li.active:before {
   color: #252525;
 }
+
+/* label */
+.dataset-status-label {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.dataset-status-label span {
+  margin-left: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
 /* About */
 .about .page-heading {
   color: #003164;
@@ -695,6 +709,12 @@ button.active {
   background-color: #c9a926;
   border-color: #c9a926;
 }
+
+button.btn.btn-warning:hover{
+  background-color: #ec971f !important;
+  border-color: #d58512;
+}
+
 .wrapper {
   border: 1px solid #e0e0e0;
   border-radius: 0;

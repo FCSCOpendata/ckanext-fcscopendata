@@ -38,6 +38,12 @@ Example:
             {% block heading_meta %}
               {% if package.get('state', '').startswith('draft') %}
                 <span class="label label-info">{{ _('Draft') }}</span>
+              {% elif package.get('publishing_status', '').startswith('draft') %}
+                <span class="label label-info">{{ _('Draft') }}</span>
+              {% elif package.get('approval_state', '').startswith('pending') and in_review%}
+                <span class="label label-warning">{{ _('Review requested')  }}</span>
+              {% elif package.get('approval_state', '').startswith('pending')%}
+              <span class="label label-warning">{{ _('pending')  }}</span>
               {% elif package.get('state', '').startswith('deleted') %}
                 <span class="label label-danger">{{ _('Deleted') }}</span>
               {% endif %}

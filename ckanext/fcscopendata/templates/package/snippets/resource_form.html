@@ -4,7 +4,6 @@
 {% set errors = errors or {} %}
 {% set action = form_action or h.url_for(dataset_type ~ '_resource.new', id=pkg_name) %}
 
-
 <form id="resource-edit" class="dataset-form dataset-resource-form" method="post" action="{{ action }}" data-module="basic-form resource-form" enctype="multipart/form-data">
 
   {% block stages %}
@@ -60,6 +59,14 @@
     {% endif %}
   {% endblock %}
 
+  {% if stage %}
+    {% if stage == 1 %}
+      <div class="alert alert-warning" role="alert">You're updating this resource as a draft. Once you done with updating, you can submit the dataset for review by visiting the dataset edit page and clicking the "Finish Update" button <a href="{{ h.url_for('dataset.edit', id=pkg_name)}}"> dataset edit page.</a> </div>
+    {% endif %}
+  {%else %}
+    <div class="alert alert-warning" role="alert">You're updating this resource as a draft. Once you done with updating, you can submit the dataset for review by visiting the dataset edit page and clicking the "Finish Update" button <a href="{{ h.url_for('dataset.edit', id=pkg_name)}}"> dataset edit page.</a> </div>
+  {% endif %}
+
   <div class="form-actions">
     {% block delete_button %}
       {% if data.id %}
@@ -75,15 +82,21 @@
     {% endif %}
     {% block again_button %}
       <button class="btn btn-default" name="save" value="again" type="submit">{{ _('Save & add another') }}</button>
-    {% endblock %}
+    {% endblock %}  
     {% if stage %}
-      {% block save_button %}
-        <button class="btn btn-primary" name="save" value="go-metadata" type="submit">{% block save_button_text %}{{ _('Finish') }}{% endblock %}</button>
+         {% block save_button %}
+      {% if stage != 1 %}
+        {% if 'complete' in stage %}
+          <button class="btn btn-warning" name="save" type="submit"  data-module="form-save" data-module="form-save" data-module-type="resource-draft">{{ _('Finish & save as draft') }}</button>
+        {% endif %}
+      {% endif %}
+        <button class="btn btn-primary" name="save" value="go-metadata" type="submit">{% block save_button_text %}{{_('Finish')}}{% endblock %}</button>
       {% endblock %}
     {% else %}
       {% block add_button %}
         <button class="btn btn-primary" name="save" value="go-dataset-complete" type="submit">{{ _('Add') }}</button>
       {% endblock %}
     {% endif %}
+
   </div>
 </form>
