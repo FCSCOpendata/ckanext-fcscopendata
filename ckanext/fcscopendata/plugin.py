@@ -1,9 +1,10 @@
+from email.policy import default
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import json
 from ckanext.fcscopendata.logic import action
 import ckanext.fcscopendata.cli as cli
-from ckanext.fcscopendata.views import vocab_tag_autocomplete
+from ckanext.fcscopendata.views import vocab_tag_autocomplete, GroupManage
 from ckanext.fcscopendata.helpers import get_package_download_stats, get_dataset_group_list
 
 from ckan.lib.plugins import DefaultTranslation
@@ -53,6 +54,8 @@ class FcscopendataPlugin(plugins.SingletonPlugin, DefaultTranslation):
         # Add plugin url rules to Blueprint object
         blueprint.add_url_rule(u'/api/2/util/vocab/tag/autocomplete', methods=[u'GET'], 
                                 view_func=vocab_tag_autocomplete)
+        blueprint.add_url_rule(u'/dataset/groups/<id>', defaults= {u'package_type': u'dataset'},
+                                view_func=GroupManage.as_view(str(u'groups')))
         return blueprint
 
     def get_actions(self):

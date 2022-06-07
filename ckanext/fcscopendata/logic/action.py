@@ -1,6 +1,5 @@
 import json
 import logging
-from unittest import result
 import ckan.plugins.toolkit as tk
 import ckan.plugins as p
 import ckan.logic as logic
@@ -8,12 +7,12 @@ import ckan.lib.helpers as h
 import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.lib.uploader as uploader
 from ckan.plugins.toolkit import ValidationError
-from datetime import date, datetime
+from datetime import datetime
 import ckan.lib.helpers as h
 import ckan.lib.uploader as uploader
 import ckan.model as model
 from ckan.common import c
-from ckan.authz import users_role_for_group_or_org, is_sysadmin
+from ckan.authz import users_role_for_group_or_org
 
 
 ValidationError = logic.ValidationError
@@ -562,20 +561,7 @@ def package_show(up_func,context,data_dict):
         result['total_downloads'] = 0
     return result
 
-@p.toolkit.chained_action
-def member_create(up_func, context, data_dict):
-    sysadmin = is_sysadmin(context['user'])
-    if not sysadmin:
-        is_memeber_of_group = users_role_for_group_or_org(data_dict['id'], context['user'])
-        if not is_memeber_of_group:
-            member_dict = {
-                'id': data_dict['id'],
-                'object': c.userobj.id,
-                'object_type': 'user',
-                'capacity': 'member',
-                }
-    result = up_func(dict(context, ignore_auth=True), data_dict)
-    return result
+
 
 def get_actions():
     return {
@@ -594,7 +580,6 @@ def get_actions():
         'vocabulary_show': vocabulary_show,
         'package_show': package_show,
         'package_search': package_search,
-        'member_create': member_create
     }
 
 
