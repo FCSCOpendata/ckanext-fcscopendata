@@ -6,9 +6,7 @@ A user has already been created for you with the username {{ user_name }}. You c
 
 You have been added to the {{ group_type }} {{ group_title }} with the following role: {{ role_name }}.
 
-To accept this invite, please reset your password at:
-
-   {{ reset_link }}
+To accept this invite, please reset your password <a href="{{ reset_link }}">here</a>
 
 
 Have a nice day.
