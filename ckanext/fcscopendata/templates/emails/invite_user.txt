@@ -1,6 +1,6 @@
 <p>Dear {{ user_name }},</p>
 
-<p>You have been invited to the {{ site_title }}.</p>
+<p>You have been invited to {{ site_title }}.</p>
 
 <p>A user account has already been created for you with the username {{ user_name }}. You can change this later.</p>
 
