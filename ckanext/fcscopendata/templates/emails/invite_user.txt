@@ -2,12 +2,12 @@
 
 <p>You have been invited to {{ site_title }}.</p>
 
-<p>A user has already been created for you with the username {{ user_name }}. You can change it later.</p>
+<p>A user account has already been created for you with the username {{ user_name }}. You can change this later.</p>
 
-<p>You have been added to the {{ group_type }} {{ group_title }} with the following role: {{ role_name }}.</p>
-<p>To accept this invite, please reset your password <a href="{{ reset_link }}">here</a>.</p><br>
+<p>You have been added to the {{ group_type }} {{ group_title }} with the role of {{ role_name }}.</p>
+<p>To accept this invitation, please reset your password <a href="{{ reset_link }}">here</a>.</p><br>
 
-<p>Have a nice day.</p>
+<p>Have a nice day!</p>
 
 <p>--<br>
 Message sent by {{ site_title }} (<a href="{{ site_url }}">{{ site_url }}</a>)</p>

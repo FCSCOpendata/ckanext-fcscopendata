@@ -1,1 +1,1 @@
-Invite for {{ site_title }}
+Invitation to {{ site_title }}
